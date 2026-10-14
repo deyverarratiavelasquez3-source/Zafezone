@@ -1,0 +1,57 @@
+{% extends "base_app.html" %}
+
+{% block titulo %}ZafeZoneCAS - Denuncias recibidas{% endblock %}
+
+{% block contenido %}
+<main class="pagina pagina-ancha">
+
+  <article class="tarjeta">
+    <h2 class="titulo verde-t"><span>🛡</span> DENUNCIAS RECIBIDAS ({{ denuncias|length }})</h2>
+    <p class="aviso-privado">🔒 Información confidencial. Úsala solo para atender los casos.</p>
+
+    {% if denuncias %}
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Recibida</th>
+            <th>Denunciante</th>
+            <th>Agresor</th>
+            <th>Lugar</th>
+            <th>Cuándo ocurrió</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in denuncias %}
+          <tr>
+            <td>{{ d.creado_en|fechahora }}</td>
+            <td>{{ d.nombre_denunciante }}<br><small>Cuenta: {{ d.cuenta or 'eliminada' }}</small></td>
+            <td>{{ d.nombre_agresor }}</td>
+            <td>{{ d.lugar }}</td>
+            <td>{{ d.fecha_hecho|fecha }}<br>{{ d.hora_hecho|hora }}</td>
+            <td class="celda-descripcion">{{ d.descripcion }}</td>
+            <td>
+              <!-- Formulario para cambiar el estado de esta denuncia -->
+              <form method="post" action="{{ url_for('cambiar_estado', denuncia_id=d.id) }}" class="form-estado">
+                <select name="estado">
+                  {% for clave, texto in estados.items() %}
+                  <option value="{{ clave }}" {{ 'selected' if d.estado == clave }}>{{ texto }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit">Guardar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="vacio">Aún no hay denuncias.</p>
+    {% endif %}
+  </article>
+
+</main>
+{% endblock %}

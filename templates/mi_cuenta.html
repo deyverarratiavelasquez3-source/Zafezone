@@ -1,0 +1,69 @@
+{% extends "base_app.html" %}
+
+{% block titulo %}ZafeZoneCAS - Mi cuenta{% endblock %}
+
+{% block contenido %}
+<main class="pagina">
+
+  <!-- Datos de la persona -->
+  <article class="tarjeta">
+    <h2 class="titulo lila"><span>👤</span> MI CUENTA</h2>
+    <p class="dato"><b>Nombre:</b> {{ usuario.nombre }}</p>
+    <p class="dato"><b>Curso:</b> {{ usuario.curso or 'No indicado' }}</p>
+    <p class="dato"><b>Tipo de cuenta:</b> {{ 'Administrador' if usuario.rol == 'admin' else 'Estudiante' }}</p>
+    <p class="dato"><b>Miembro desde:</b> {{ usuario.creado_en|fecha }}</p>
+  </article>
+
+  <!-- Historial del diario emocional (solo lo ve esta persona) -->
+  <article class="tarjeta">
+    <h2 class="titulo azul-t"><span>♡</span> MI DIARIO EMOCIONAL</h2>
+    <p class="aviso-privado">🔒 Solo tú puedes ver estos registros.</p>
+
+    {% if diario %}
+      {% for registro in diario %}
+      <div class="registro">
+        <div class="registro-cabecera">
+          <span class="etiqueta-emocion {{ emociones[registro.emocion][2] }}">
+            {{ emociones[registro.emocion][0] }} {{ emociones[registro.emocion][1] }}
+          </span>
+          <small>{{ registro.creado_en|fechahora }}</small>
+        </div>
+        {% if registro.texto %}
+        <p>{{ registro.texto }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="vacio">Todavía no tienes registros. ¡Cuéntanos cómo te sientes en la página de inicio!</p>
+    {% endif %}
+  </article>
+
+  <!-- Estado de las denuncias enviadas -->
+  <article class="tarjeta">
+    <h2 class="titulo verde-t"><span>🛡</span> MIS DENUNCIAS</h2>
+
+    {% if denuncias %}
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <thead>
+          <tr><th>Enviada</th><th>Lugar</th><th>Fecha del hecho</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+          {% for denuncia in denuncias %}
+          <tr>
+            <td>{{ denuncia.creado_en|fechahora }}</td>
+            <td>{{ denuncia.lugar }}</td>
+            <td>{{ denuncia.fecha_hecho|fecha }}</td>
+            <td><span class="estado estado-{{ denuncia.estado|replace(' ', '-') }}">{{ estados[denuncia.estado] }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p class="vacio">No has enviado denuncias.</p>
+    {% endif %}
+  </article>
+
+</main>
+{% endblock %}

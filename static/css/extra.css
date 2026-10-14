@@ -1,0 +1,186 @@
+/* ============================================================
+   extra.css
+   Estilos de lo que se agregó al diseño original:
+   mensajes, registro, "Mi cuenta", panel de denuncias y error.
+   Usa los mismos colores del diseño de la clienta.
+   ============================================================ */
+
+/* ---------- Mensajes (flash) ---------- */
+.mensaje {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.mensaje.exito { background: #d4efd9; color: #1d5a31; }
+.mensaje.error { background: #fbd3d3; color: #8a2b2b; }
+.mensaje.info  { background: #d6e6fb; color: #1f3f78; }
+
+/* En las páginas internas los mensajes van centrados bajo la barra */
+.zona-mensajes {
+  max-width: 900px;
+  margin: 12px auto 0;
+}
+
+.zona-mensajes:empty { display: none; }
+
+/* ---------- Login / registro ---------- */
+.enlace-extra {
+  font-size: 13px;
+  color: #64748B;
+}
+
+.enlace-extra a {
+  color: #4a7fd4;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.enlace-extra a:hover { text-decoration: underline; }
+
+/* El registro tiene más campos: permitimos hacer scroll */
+body.pagina-registro {
+  height: auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ---------- Botones de emoción elegidos ---------- */
+.emociones button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+
+.emociones button:hover { transform: translateY(-2px); }
+
+.emociones button.elegida {
+  outline: 3px solid #1f2a4d;
+  transform: scale(1.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Páginas internas: Mi cuenta, Denuncias, Error ---------- */
+.pagina {
+  max-width: 900px;
+  margin: 16px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pagina-ancha { max-width: 1200px; }
+
+.dato {
+  margin: 10px 4px 0;
+}
+
+.aviso-privado {
+  font-size: 12px !important;
+  margin: 10px 4px 0;
+  color: #5b6a8f;
+}
+
+.vacio {
+  margin: 16px 4px 0;
+  color: #5b6a8f;
+}
+
+/* ---------- Diario en "Mi cuenta" ---------- */
+.registro {
+  border: 1px solid #e3effc;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-top: 12px;
+}
+
+.registro-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.registro p { white-space: pre-wrap; }
+
+.etiqueta-emocion {
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* ---------- Tablas ---------- */
+.tabla-scroll {
+  overflow-x: auto;
+  margin-top: 14px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tabla th {
+  background: #e3effc;
+  text-align: left;
+  padding: 10px;
+}
+
+.tabla td {
+  padding: 10px;
+  border-bottom: 1px solid #e3effc;
+  vertical-align: top;
+}
+
+.celda-descripcion {
+  min-width: 260px;
+  white-space: pre-wrap;
+}
+
+/* ---------- Estados de las denuncias ---------- */
+.estado {
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.estado-pendiente   { background: #fdf0c4; }
+.estado-en-revision { background: #cfe0f7; }
+.estado-resuelta    { background: #cfeed6; }
+
+.form-estado {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.form-estado select {
+  border: 1px solid #cfe0f7;
+  border-radius: 10px;
+  padding: 6px;
+  font-size: 12px;
+  background: white;
+}
+
+.form-estado button {
+  border: none;
+  background: #a9ccf5;
+  color: #1f2a4d;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ---------- Página de error ---------- */
+.error-pagina p { margin-top: 14px; }
+.error-pagina a { color: #4a7fd4; font-weight: bold; text-decoration: none; }
+
+/* ---------- Celular ---------- */
+@media (max-width: 900px) {
+  .zona-mensajes { max-width: 100%; }
+}

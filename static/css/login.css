@@ -1,0 +1,326 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Caveat';
+    src: url(../fonts/Caveat-Bold.ttf);
+    font-weight: bold;
+}
+
+body {
+    background-color: #FCF8F2;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.forma {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.ovalo-rosa {
+    top: -40px;
+    right: -30px;
+    width: 250px;
+    height: 180px;
+    background-color: #ffd1d1;
+    border-radius: 40% 60% 70% 30% / 50% 50% 50% 50%;
+    transform: rotate(25deg);
+}
+
+.ovalo-celeste {
+    top: -50px;
+    left: -40px;
+    width: 300px;
+    height: 200px;
+    background-color: #d1e8ff;
+    border-radius: 60% 40% 30% 70% / 50% 70% 30% 50%;
+    transform: rotate(-15deg);
+}
+
+.ovalo-verde {
+    bottom: -60px;
+    left: 10%;
+    width: 280px;
+    height: 150px;
+    background-color: #d1f4e2;
+    border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
+}
+
+.ovalo-amarillo {
+    bottom: -50px;
+    right: 5%;
+    width: 320px;
+    height: 180px;
+    background-color: #faebd7;
+    border-radius: 70% 30% 50% 50% / 40% 60% 40% 60%;
+    transform: rotate(10deg);
+}
+
+.ovalo-morado {
+    top: -100px;
+    right: 230px;
+    width: 250px;
+    height: 180px;
+    background-color: #483D8B;
+    border-radius: 40% 60% 70% 30% / 50% 50% 50% 50%;
+    transform: rotate(25deg);
+}
+
+.ovalo-rosado-fuerte {
+    z-index: 2000;
+    bottom: -10px;
+    left: -100px;
+    width: 300px;
+    height: 200px;
+    background-color: #FF1493;
+    border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
+}
+
+.ovalo-gris {
+    bottom: -5px;
+    right: -100px;
+    width: 300px;
+    height: 200px;
+    background-color: #696969;
+    border-radius: 70% 30% 50% 50% / 40% 60% 40% 60%;
+    transform: rotate(10deg);
+}
+
+.contenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    z-index: 1;
+}
+
+.seccion_personas {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.seccion_frase {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seccion_frase img {
+    max-width: 260px;
+    height: auto;
+    position: relative;
+    bottom: 60px;
+    animation: flotar 4s ease-in-out infinite;
+}
+
+.seccion_personas img {
+    width: 400px;
+    height: auto;
+    position: relative;
+    left: -40px;
+    animation: flotar 4s ease-in-out infinite alternate;
+}
+
+.imagen_logo img {
+    width: 220px;
+    height: auto;
+    margin-bottom: 10px;
+    position: relative;
+    right: -90px;
+}
+
+.presentacion {
+    position: relative;
+    right: -110px;
+}
+
+.titulo {
+    display: flex;
+    font-size: 25px;
+    font-weight: 800;
+    position: relative;
+    left: -70px;
+}
+
+.titulo-1 {
+    color: #244155;
+}
+
+.titulo-2 {
+    color: #7DD3FC;
+}
+
+.presentacion h3 {
+    color: #64748B;
+    font-size: 27px;
+    margin-bottom: 25px;
+    font-weight: normal;
+    position: relative;
+    left: -25px;
+    font-family: 'Caveat';
+    font-weight: bold;
+}
+
+.datos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1.2;
+    background: #FFFFFF;
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    width: 500px;
+    z-index: 1000;
+    position: relative;
+    left: -30px;
+    animation: aparecerSuave 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.datos input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #d1d5db;
+    border-radius: 30px;
+    outline: none;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.datos input:focus {
+    border-color: #FF8A8A;
+    box-shadow: 0 0 0 4px rgba(255, 138, 138, 0.15);
+    transform: translateY(-1px);
+    transition: all 0.3s ease;
+}
+
+.datos button {
+    width: 100%;
+    padding: 12px;
+    background-color: #FF8A8A;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.datos button:hover {
+    background-color: #ff7676;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 138, 138, 0.4);
+}
+
+.datos button:active {
+    transform: translateY(0);
+}
+
+@keyframes aparecerSuave {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.campo {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.icono-izquierdo {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.datos .campo input {
+    width: 100%;
+    padding: 12px 45px;
+    border: 1px solid #d1d5db;
+    border-radius: 30px;
+    outline: none;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.datos .campo input:focus {
+    border-color: #FF8A8A;
+    box-shadow: 0 0 0 4px rgba(255, 138, 138, 0.15);
+    transform: translateY(-1px);
+}
+
+.datos .campo .boton-vista {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    padding: 5px;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 3;
+    box-shadow: none;
+}
+
+.datos .campo .boton-vista img {
+    width: 20px;
+    height: 20px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.datos .campo .boton-vista:hover {
+    background-color: #f1f5f9;
+    transform: translateY(-50%);
+    box-shadow: none;
+}
+
+.datos .campo .boton-vista:active {
+    transform: translateY(-50%);
+}
+
+@keyframes flotar {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}

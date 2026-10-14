@@ -1,0 +1,10 @@
+{#
+  Muestra los mensajes que el servidor guardó con flash(...).
+  Categorías: "exito" (verde), "error" (rojo) e "info" (azul).
+  Se incluye en las demás plantillas con: {% include "_mensajes.html" %}
+#}
+{% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% for categoria, texto in mensajes %}
+        <div class="mensaje {{ categoria }}" role="alert">{{ texto }}</div>
+    {% endfor %}
+{% endwith %}

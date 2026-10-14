@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- Se muestra cuando no se puede usar la base de datos MySQL -->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Error - ZafeZoneCAS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/principal.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/extra.css') }}">
+</head>
+<body>
+  <main class="pagina">
+    <article class="tarjeta error-pagina">
+      <h2 class="titulo rosa">⚠️ Algo salió mal</h2>
+      <p>No pudimos conectar con la base de datos en este momento. Inténtalo de nuevo en unos minutos.</p>
+      <p><small>Si eres quien administra el sitio: revisa que MySQL esté encendido, que los datos de
+        <b>config.ini</b> sean correctos y que ya hayas ejecutado <b>crear_base_datos.py</b>.
+        El detalle del error aparece en la consola donde corre la aplicación.</small></p>
+      <p><a href="{{ url_for('inicio') }}">← Volver al inicio</a></p>
+    </article>
+  </main>
+</body>
+</html>

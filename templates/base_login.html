@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+  Plantilla base de las pantallas de acceso (login y registro).
+  Contiene el fondo con óvalos, las imágenes y el logo.
+  Cada página rellena el espacio llamado «formulario» con su formulario.
+-->
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/extra.css') }}">
+    <title>{% block titulo %}ZafeZone CAS{% endblock %}</title>
+</head>
+<body class="{% block clase_body %}{% endblock %}">
+
+    <!-- Formas ovaladas geométricas -->
+    <div class="forma ovalo-rosa"></div>
+    <div class="forma ovalo-celeste"></div>
+    <div class="forma ovalo-verde"></div>
+    <div class="forma ovalo-amarillo"></div>
+    <div class="forma ovalo-morado"></div>
+    <div class="forma ovalo-rosado-fuerte"></div>
+    <div class="forma ovalo-gris"></div>
+
+    <main class="contenedor">
+        <section class="seccion_personas">
+            <div class="imagen_personas">
+                <img src="{{ url_for('static', filename='img/personas.png') }}" alt="personas">
+            </div>
+        </section>
+
+        <section>
+            <div class="imagen_logo">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+            </div>
+            <div class="presentacion">
+                <section class="titulo">
+                    <h1 class="titulo-1">ZafeZone</h1>
+                    <h1 class="titulo-2">CAS</h1>
+                </section>
+                <h3>Tu colegio, tu zona segura</h3>
+            </div>
+
+            {% block formulario %}{% endblock %}
+        </section>
+
+        <section class="seccion_frase">
+            <div class="imagen_frase">
+                <img src="{{ url_for('static', filename='img/frase.png') }}" alt="frase">
+            </div>
+        </section>
+    </main>
+
+    <!-- Script que muestra / oculta la contraseña -->
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

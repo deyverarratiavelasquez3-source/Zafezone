@@ -1,0 +1,52 @@
+{% extends "base_login.html" %}
+
+{% block titulo %}Crear cuenta - ZafeZone CAS{% endblock %}
+
+{# Esta clase permite que la página pueda hacer scroll (tiene más campos) #}
+{% block clase_body %}pagina-registro{% endblock %}
+
+{% block formulario %}
+<form class="datos" method="post" action="{{ url_for('registro') }}">
+
+    {% include "_mensajes.html" %}
+
+    <!-- Nombre -->
+    <div class="campo">
+        <img src="{{ url_for('static', filename='img/usuario.png') }}" alt="Usuario" class="icono-izquierdo">
+        <input type="text" name="nombre" placeholder="Nombre" maxlength="50"
+               value="{{ datos.get('nombre', '') }}" autocomplete="username" required autofocus>
+    </div>
+
+    <!-- Curso (opcional) -->
+    <div class="campo">
+        <img src="{{ url_for('static', filename='img/casa.png') }}" alt="Curso" class="icono-izquierdo">
+        <input type="text" name="curso" placeholder="Curso (opcional) Ej: 3ro B" maxlength="50"
+               value="{{ datos.get('curso', '') }}">
+    </div>
+
+    <!-- Contraseña -->
+    <div class="campo">
+        <img src="{{ url_for('static', filename='img/contrasena.png') }}" alt="Contraseña" class="icono-izquierdo">
+        <input type="password" name="password" id="password" data-password
+               placeholder="Contraseña (mínimo 6 caracteres)" autocomplete="new-password" required>
+
+        <button type="button" class="boton-vista" id="togglePassword"
+                aria-label="Mostrar contraseña" aria-pressed="false"
+                data-icono-ver="{{ url_for('static', filename='img/viendo.png') }}"
+                data-icono-ocultar="{{ url_for('static', filename='img/cerrado.png') }}">
+            <img src="{{ url_for('static', filename='img/viendo.png') }}" alt="" id="iconoVista">
+        </button>
+    </div>
+
+    <!-- Repetir contraseña -->
+    <div class="campo">
+        <img src="{{ url_for('static', filename='img/contrasena.png') }}" alt="Contraseña" class="icono-izquierdo">
+        <input type="password" name="password2" data-password
+               placeholder="Repite la contraseña" autocomplete="new-password" required>
+    </div>
+
+    <button type="submit">CREAR CUENTA</button>
+
+    <p class="enlace-extra">¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a></p>
+</form>
+{% endblock %}

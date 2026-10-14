@@ -1,0 +1,115 @@
+{% extends "base_app.html" %}
+
+{% block titulo %}ZafeZoneCAS - Inicio{% endblock %}
+
+{% block contenido %}
+
+  <section class="banner">
+    <img src="{{ url_for('static', filename='img/frase_2-removebg-preview.png') }}" alt="frase_2" class="banner-frase">
+    <img src="{{ url_for('static', filename='img/corazon-removebg-preview.png') }}" alt="corazon" class="banner-corazon">
+    <img src="{{ url_for('static', filename='img/amigos-removebg-preview.png') }}" alt="amigos" class="banner-amigos">
+  </section>
+
+  <main class="contenedor">
+
+    <!-- ===================== INFORMACIÓN ===================== -->
+    <article class="tarjeta">
+      <h2 class="titulo lila"><span>i</span> INFORMACIÓN</h2>
+
+      <h3>¿Qué es el bullying?</h3>
+      <p>Es un patrón de comportamientos agresivos, intencionados y sistemáticamente repetidos
+        uno o más estudiantes, que genera un desequilibrio de poder sobre la víctima.</p>
+
+      <div class="tipos">
+        <div class="tipo rosa">✊<b>Físico</b><small>Golpes, empujones, daños.</small></div>
+        <div class="tipo verde">💬<b>Verbal</b><small>Insultos, apodos, amenazas.</small></div>
+        <div class="tipo azul">👥<b>Social</b><small>Excluir, ignorar, aislar.</small></div>
+        <div class="tipo morado">🧠<b>Psicológico</b><small>Manipulación, humillación, chantaje.</small></div>
+        <div class="tipo amarillo">📱<b>Ciberbullying</b><small>Acoso en redes, mensajes, imágenes.</small></div>
+      </div>
+
+      <div class="prevenir">
+        <h4>💡 ¿Cómo prevenirlo?</h4>
+        <ul>
+          <li><i class="punto rojo">✓</i> Pedir ayuda cuando lo necesites.</li>
+          <li><i class="punto verde-p">✓</i> No normalizar las agresiones.</li>
+          <li><i class="punto azul-p">✓</i> Acompañar a la víctima.</li>
+          <li><i class="punto amarillo-p">✓</i> Reportar de forma segura.</li>
+          <li><i class="punto morado-p">✓</i> Fomentar la empatía y el respeto.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- ===================== DENUNCIA ===================== -->
+    <article class="tarjeta">
+      <h2 class="titulo verde-t"><span>🛡</span> DENUNCIA</h2>
+
+      <h3>Tu voz también importa</h3>
+      <p>Puedes reportar de forma confidencial y segura. Nos tomamos cada caso en serio.</p>
+
+      <!-- Al enviar, los datos viajan a la ruta /denuncia (app.py -> enviar_denuncia) -->
+      <form method="post" action="{{ url_for('enviar_denuncia') }}">
+        <input type="text" name="nombre_denunciante" maxlength="100"
+               placeholder="👤 Nombre del denunciante"
+               value="{{ d.get('nombre_denunciante', '') }}" required>
+        <input type="text" name="nombre_agresor" maxlength="100"
+               placeholder="👤 Nombre del agresor"
+               value="{{ d.get('nombre_agresor', '') }}" required>
+
+        <p class="etiqueta">📍 Lugar</p>
+
+        <!-- Campo oculto: guarda el lugar elegido (lo actualiza principal.js) -->
+        <input type="hidden" name="lugar" id="campo-lugar" value="{{ d.get('lugar', 'Curso') }}">
+        <div class="lugares">
+          {% for lugar in lugares %}
+          <button type="button" data-lugar="{{ lugar }}"
+                  class="{{ 'seleccionado' if d.get('lugar', 'Curso') == lugar }}">{{ lugar }}</button>
+          {% endfor %}
+        </div>
+
+        <input type="date" name="fecha" value="{{ d.get('fecha', '') }}" required>
+        <input type="time" name="hora" value="{{ d.get('hora', '') }}" required>
+        <textarea name="descripcion" rows="4" maxlength="5000" required
+                  placeholder="Descripción de lo ocurrido. Cuéntanos lo que pasó...">{{ d.get('descripcion', '') }}</textarea>
+
+        <button type="submit" class="boton rojo-b">ENVIAR DENUNCIA</button>
+      </form>
+
+      <p class="aviso">🔒 Tu información es confidencial y está protegida.</p>
+    </article>
+
+    <!-- ===================== DIARIO EMOCIONAL ===================== -->
+    <article class="tarjeta">
+      <h2 class="titulo azul-t"><span>♡</span> DIARIO EMOCIONAL</h2>
+
+      <h3>¿Cómo te sientes hoy?</h3>
+      <p>Tus emociones también importan.</p>
+
+      <!-- Al guardar, los datos viajan a la ruta /diario (app.py -> guardar_diario) -->
+      <form method="post" action="{{ url_for('guardar_diario') }}">
+
+        <!-- Campo oculto: guarda la emoción elegida (lo actualiza principal.js) -->
+        <input type="hidden" name="emocion" id="campo-emocion" value="{{ e.get('emocion', '') }}">
+        <div class="emociones">
+          {% for clave, (emoji, etiqueta, color) in emociones.items() %}
+          <button type="button" data-emocion="{{ clave }}"
+                  class="{{ color }} {{ 'elegida' if e.get('emocion') == clave }}">{{ emoji }}<br>{{ etiqueta }}</button>
+          {% endfor %}
+        </div>
+
+        <p class="etiqueta">✏️ Escribe lo que quieras expresar...</p>
+        <textarea name="texto" rows="7" maxlength="5000"
+                  placeholder="Aquí puedes escribir libremente lo que sientes, piensas o te preocupa...">{{ e.get('texto', '') }}</textarea>
+
+        <button type="submit" class="boton azul-b">GUARDAR REGISTRO</button>
+      </form>
+
+      <p class="frase">🧠<br>Tus emociones también cuentan ♡</p>
+    </article>
+
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/principal.js') }}"></script>
+{% endblock %}

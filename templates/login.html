@@ -1,0 +1,39 @@
+{% extends "base_login.html" %}
+
+{% block titulo %}Inicio de sesión - ZafeZone CAS{% endblock %}
+
+{% block formulario %}
+<!-- El formulario envía el nombre y la contraseña a la ruta /login (POST) -->
+<form class="datos" method="post" action="{{ url_for('login') }}">
+
+    <!-- Mensajes de Flask (errores o avisos) -->
+    {% include "_mensajes.html" %}
+
+    <!-- Campo de usuario -->
+    <div class="campo">
+        <img src="{{ url_for('static', filename='img/usuario.png') }}" alt="Usuario" class="icono-izquierdo">
+        <input type="text" name="nombre" placeholder="Nombre" value="{{ nombre }}"
+               autocomplete="username" required autofocus>
+    </div>
+
+    <!-- Campo de contraseña -->
+    <div class="campo">
+        <img src="{{ url_for('static', filename='img/contrasena.png') }}" alt="Contraseña" class="icono-izquierdo">
+        <input type="password" name="password" id="password" data-password
+               placeholder="Contraseña" autocomplete="current-password" required>
+
+        <!-- Botón para mostrar u ocultar la contraseña -->
+        <button type="button" class="boton-vista" id="togglePassword"
+                aria-label="Mostrar contraseña" aria-pressed="false"
+                data-icono-ver="{{ url_for('static', filename='img/viendo.png') }}"
+                data-icono-ocultar="{{ url_for('static', filename='img/cerrado.png') }}">
+            <img src="{{ url_for('static', filename='img/viendo.png') }}" alt="" id="iconoVista">
+        </button>
+    </div>
+
+    <!-- Botón de inicio de sesión -->
+    <button type="submit">INICIAR SESION</button>
+
+    <p class="enlace-extra">¿No tienes cuenta? <a href="{{ url_for('registro') }}">Regístrate aquí</a></p>
+</form>
+{% endblock %}

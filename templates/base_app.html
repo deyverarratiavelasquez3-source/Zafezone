@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+  Plantilla base de las páginas internas (cuando ya iniciaste sesión).
+  Tiene la barra superior, los mensajes y el pie de página.
+  Cada página rellena el espacio llamado «contenido» con lo suyo.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}ZafeZoneCAS{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/principal.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/extra.css') }}">
+</head>
+<body>
+
+  <header class="barra">
+    <div class="marca">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo ZafeZoneCAS">
+      <div>
+        <h1>ZafeZone<span>CAS</span></h1>
+        <p>Tu colegio, tu zona segura</p>
+      </div>
+    </div>
+
+    <!-- Menú: la clase "activo" marca la página donde estás -->
+    <nav>
+      <a href="{{ url_for('principal') }}" class="{{ 'activo' if request.endpoint == 'principal' }}">
+        <img src="{{ url_for('static', filename='img/casa.png') }}" alt="">Inicio
+      </a>
+
+      <a href="{{ url_for('mi_cuenta') }}" class="{{ 'activo' if request.endpoint == 'mi_cuenta' }}">
+        <img src="{{ url_for('static', filename='img/sesion.png') }}" alt=""> Mi cuenta
+      </a>
+
+      <!-- Este enlace solo lo ve el administrador -->
+      {% if session.get('rol') == 'admin' %}
+      <a href="{{ url_for('admin_denuncias') }}" class="{{ 'activo' if request.endpoint == 'admin_denuncias' }}">
+        <img src="{{ url_for('static', filename='img/viendo.png') }}" alt=""> Denuncias
+      </a>
+      {% endif %}
+
+      <a href="{{ url_for('logout') }}">
+        <img src="{{ url_for('static', filename='img/cerrar_sesion.png') }}" alt=""> Cerrar sesión
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mensajes de confirmación o error -->
+  <div class="zona-mensajes">
+    {% include "_mensajes.html" %}
+  </div>
+
+  {% block contenido %}{% endblock %}
+
+  <footer class="pie">
+    Respeto <span>♥</span> Empatía <span>♥</span> Convivencia <span>♥</span> Un mejor mañana
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
