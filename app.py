@@ -5,12 +5,12 @@ app.py - Aplicación web ZafeZone CAS ("Tu colegio, tu zona segura")
 Para encenderla:   python app.py
 
 Páginas:
-  /login                      Iniciar sesión
-  /registro                   Crear cuenta de estudiante
-  /principal                  Información, Denuncia y Diario emocional
-  /mi-cuenta                  Datos del usuario y su historial
+  /login                     Iniciar sesión
+  /registro                  Crear cuenta de estudiante
+  /principal                 Información, Denuncia y Diario emocional
+  /mi-cuenta                 Datos del usuario y su historial
   /admin/denuncias            (solo administrador) Ver y gestionar denuncias
-  /logout                     Cerrar sesión
+  /logout                    Cerrar sesión
 """
 
 from functools import wraps
@@ -28,7 +28,7 @@ from configuracion import leer_configuracion, datos_mysql, nombre_base_de_datos
 # ------------------------------------------------------------------
 CONFIG = leer_configuracion()
 
-# Datos para conectarnos a MySQL (salen de config.ini)
+# Datos para conectarnos a MySQL (salen de config.ini o variables de entorno)
 DATOS_MYSQL = datos_mysql(CONFIG)
 DATOS_MYSQL["database"] = nombre_base_de_datos(CONFIG)
 
@@ -102,6 +102,68 @@ def ejecutar(sql, valores=()):
 
 
 # ------------------------------------------------------------------
+# INICIALIZACIÓN AUTOMÁTICA DE TABLAS EN AIVEN
+# ------------------------------------------------------------------
+def inicializar_bd():
+    """Crea automáticamente el esquema de tablas si no existen."""
+    try:
+        conexion = conectar()
+        cursor = conexion.cursor()
+
+        # 1. Tabla de usuarios
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nombre VARCHAR(100) NOT NULL UNIQUE,
+                curso VARCHAR(50),
+                password_hash VARCHAR(255) NOT NULL,
+                rol VARCHAR(20) DEFAULT 'estudiante',
+                creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+
+        # 2. Tabla de denuncias
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS denuncias (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                usuario_id INT,
+                nombre_denunciante VARCHAR(100) NOT NULL,
+                nombre_agresor VARCHAR(100) NOT NULL,
+                lugar VARCHAR(50) NOT NULL,
+                fecha_hecho DATE NOT NULL,
+                hora_hecho TIME NOT NULL,
+                descripcion TEXT NOT NULL,
+                estado VARCHAR(30) DEFAULT 'pendiente',
+                creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+            );
+        """)
+
+        # 3. Tabla de diario emocional
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS diario_emocional (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                usuario_id INT,
+                emocion VARCHAR(30) NOT NULL,
+                texto TEXT,
+                creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+            );
+        """)
+
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+        print("¡Todas las tablas (usuarios, denuncias, diario) listas en Aiven!")
+    except Exception as e:
+        print(f"Error al inicializar tablas en la BD: {e}")
+
+
+# Se ejecuta la verificación al arrancar el servidor
+inicializar_bd()
+
+
+# ------------------------------------------------------------------
 # 3. PROTECCIÓN DE PÁGINAS
 #    Un "decorador" es una etiqueta (@algo) que se pone encima de una
 #    ruta para que primero se haga una comprobación.
@@ -150,34 +212,7 @@ def filtro_hora(valor):
         return ""
     segundos = int(valor.total_seconds())
     return "%02d:%02d" % (segundos // 3600, (segundos % 3600) // 60)
-# Ejemplo de cómo agregar la creación automática de tablas:
-def inicializar_bd():
-    try:
-        # Usa la misma función/conexión que ya tienes configurada con env vars
-        conexion = obtener_conexion() 
-        cursor = conexion.cursor()
-        
-        # Ejecuta la creación de la tabla usuarios si no existe
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS usuarios (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                nombre VARCHAR(100) NOT NULL,
-                correo VARCHAR(100) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL
-            );
-        """)
-        
-        # (Opcional) Agrega aquí las demás tablas que use tu app
-        
-        conexion.commit()
-        cursor.close()
-        conexion.close()
-        print("¡Base de datos e infraestructura de tablas verificadas exitosamente!")
-    except Exception as e:
-        print(f"Error al inicializar tablas: {e}")
 
-# Llama a la función al arrancar la app
-inicializar_bd()
 
 # ------------------------------------------------------------------
 # 5. LOGIN, REGISTRO Y LOGOUT
