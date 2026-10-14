@@ -473,3 +473,5 @@ if __name__ == "__main__":
     puerto_web = CONFIG["app"].getint("puerto_web", 5000)
     modo_debug = CONFIG["app"].getboolean("debug", False)
     app.run(host="0.0.0.0", port=puerto_web, debug=modo_debug)
+
+#Forzar debug
