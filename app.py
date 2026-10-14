@@ -150,7 +150,34 @@ def filtro_hora(valor):
         return ""
     segundos = int(valor.total_seconds())
     return "%02d:%02d" % (segundos // 3600, (segundos % 3600) // 60)
+# Ejemplo de cómo agregar la creación automática de tablas:
+def inicializar_bd():
+    try:
+        # Usa la misma función/conexión que ya tienes configurada con env vars
+        conexion = obtener_conexion() 
+        cursor = conexion.cursor()
+        
+        # Ejecuta la creación de la tabla usuarios si no existe
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nombre VARCHAR(100) NOT NULL,
+                correo VARCHAR(100) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL
+            );
+        """)
+        
+        # (Opcional) Agrega aquí las demás tablas que use tu app
+        
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+        print("¡Base de datos e infraestructura de tablas verificadas exitosamente!")
+    except Exception as e:
+        print(f"Error al inicializar tablas: {e}")
 
+# Llama a la función al arrancar la app
+inicializar_bd()
 
 # ------------------------------------------------------------------
 # 5. LOGIN, REGISTRO Y LOGOUT
